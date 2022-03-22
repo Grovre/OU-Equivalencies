@@ -1,4 +1,4 @@
-package me.grovre.equivalency.linkFactory.link;
+package me.grovre.equivalency.linkFactory;
 
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,22 +19,23 @@ public interface OuBaseLinks {
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < proposals.size(); i++) {
             var o = proposals.get(i);
-            System.out.println(i + ": " + o.toString());
+            System.out.println((i) + ": " + o.toString());
         }
         do {
             error = false;
             System.out.println("Please choose a number: ");
             try {
-                selection = scanner.nextInt()+1;
-                assert 1 <= selection && selection <= proposals.size();
+                selection = scanner.nextInt();
+                assert 0 <= selection && selection <= proposals.size();
                 System.out.println("Selection was greater than 1 and less than max");
             } catch (Exception e) {
                 error = true;
                 System.out.printf("Please enter a valid number, 1 - %d%n", proposals.size());
             }
         } while(error);
+        scanner.close();
 
-        return selection-1;
+        return selection;
     }
 
     static Map<String, String> getCollegeList(Element sbgiCodesParentElement) {

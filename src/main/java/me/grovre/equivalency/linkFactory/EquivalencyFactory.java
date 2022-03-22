@@ -1,16 +1,13 @@
 package me.grovre.equivalency.linkFactory;
 
 import me.grovre.equivalency.EquivalencyData;
-import me.grovre.equivalency.linkFactory.link.FromOuLinkFactory;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
-public class EquivalencyFactory {
+import java.io.IOException;
 
-    // search by other institution scrape link
-    // https://sis.ou.edu/ted/?stat_code=AK&sbgi_code=004201&trns_subj_code=AC&trns_subj_crse=AC-470&trns_crse_numb=470
-
-    // search by ou scrape link
-    // https://sis.ou.edu/ted/?ou_subj_code=A+HI&ou_course=A+HI-1113&stat_code=AL&sbgi_code=UAL001
-    // https://sis.ou.edu/ted/?ou_course=A+HI-1113&ou_subj_code=A+HI&stat_code=AL&sbgi_code=UAL001
+public class EquivalencyFactory implements OuBaseLinks {
 
     // TODO: 3/22/22 Accept SubjectAndCourse list 
     public static EquivalencyData byOuCourses(String subject, String course, String stateAbbrev) {
@@ -18,8 +15,50 @@ public class EquivalencyFactory {
 
         System.out.println(link);
 
+        // TODO: 3/22/22 Create equivalencyData from link(s) 
+
         return null;
     }
 
+    private static class FromOuLinkFactory {
 
+        // TODO: 3/22/22 Merge into EquivalencyFactory
+        public static String FromOuLinkFactory(String subjectCode, String courseCode, String state) {
+            assert subjectCode != null && subjectCode.length() > 0;
+            assert courseCode != null && courseCode.length() > 0;
+            assert state != null && state.length() == 2;
+
+            StringBuilder linkBody = new StringBuilder(OuBaseLinks.OuSearchFinalHead);
+
+            subjectCode = subjectCode.replaceAll("[ _-]", "+");
+            linkBody.append("&ou_subj_code=").append(subjectCode);
+
+            courseCode = courseCode.toUpperCase();
+            linkBody.append("&ou_course=").append(subjectCode).append("-").append(courseCode.toUpperCase());
+
+            linkBody.append("&stat_code=").append(state.toUpperCase());
+
+            Element collegeElement = null;
+            try {
+                Connection connection = Jsoup.connect(base + OuSearchSearchHead + linkBody.toString());
+                assert connection != null;
+                collegeElement = connection.get()
+                        .getElementById("ouSearch")
+                        .getElementById("sbgi_code");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String chosenCollegeSbgi = OuBaseLinks.selectCollege(collegeElement);
+            linkBody.append("&sbgi_code=").append(chosenCollegeSbgi);
+
+            String linkBod = linkBody.toString();
+            System.out.println("Search link for verification: " + base + OuSearchSearchHead + linkBod);
+            return base + OuSearchFinalHead + linkBod;
+        }
+    }
+
+    // TODO: 3/22/22 Allow checking from another college
+    private static class FromOtherLinkFactory {
+
+    }
 }
