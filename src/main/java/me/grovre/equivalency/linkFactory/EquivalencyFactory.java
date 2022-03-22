@@ -10,8 +10,8 @@ import java.io.IOException;
 public class EquivalencyFactory implements OuBaseLinks {
 
     // TODO: 3/22/22 Accept SubjectAndCourse list 
-    public static EquivalencyData byOuCourses(String subject, String course, String stateAbbrev) {
-        String link = FromOuLinkFactory.FromOuLinkFactory(subject, course, stateAbbrev);
+    public static EquivalencyData byOuCourses(String stateAbbrev, String subject, String course) {
+        String link = FromOuLinkFactory.FromOuLink(stateAbbrev, subject, course);
 
         System.out.println(link);
 
@@ -23,7 +23,7 @@ public class EquivalencyFactory implements OuBaseLinks {
     private static class FromOuLinkFactory {
 
         // TODO: 3/22/22 Merge into EquivalencyFactory
-        public static String FromOuLinkFactory(String subjectCode, String courseCode, String state) {
+        public static String FromOuLink(String state, String subjectCode, String courseCode) {
             assert subjectCode != null && subjectCode.length() > 0;
             assert courseCode != null && courseCode.length() > 0;
             assert state != null && state.length() == 2;
