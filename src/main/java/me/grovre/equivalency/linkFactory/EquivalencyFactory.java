@@ -12,6 +12,7 @@ public class EquivalencyFactory {
     // https://sis.ou.edu/ted/?ou_subj_code=A+HI&ou_course=A+HI-1113&stat_code=AL&sbgi_code=UAL001
     // https://sis.ou.edu/ted/?ou_course=A+HI-1113&ou_subj_code=A+HI&stat_code=AL&sbgi_code=UAL001
 
+    // TODO: 3/22/22 Accept SubjectAndCourse list 
     public static EquivalencyData byOuCourses(String subject, String course, String stateAbbrev) {
         String link = FromOuLinkFactory.FromOuLinkFactory(subject, course, stateAbbrev);
 
