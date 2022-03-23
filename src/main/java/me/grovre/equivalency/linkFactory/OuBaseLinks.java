@@ -14,7 +14,7 @@ public interface OuBaseLinks {
     String OtherSearchLink = "https://sis.ou.edu/ted/?stat_code=AK&sbgi_code=004201&trns_subj_code=AC&trns_subj_crse=AC-470&trns_crse_numb=470";
 
     static int proposeSelection(List<? extends Object> proposals) {
-        int selection = -1;
+        int selection = 0;
         boolean error;
         Scanner scanner = new Scanner(System.in);
         for (int i = 0; i < proposals.size(); i++) {
@@ -26,14 +26,12 @@ public interface OuBaseLinks {
             System.out.println("Please choose a number: ");
             try {
                 selection = scanner.nextInt();
-                assert 0 <= selection && selection <= proposals.size();
-                System.out.println("Selection was greater than 1 and less than max");
+                assert 0 <= selection && selection < proposals.size();
             } catch (Exception e) {
                 error = true;
                 System.out.printf("Please enter a valid number, 1 - %d%n", proposals.size());
             }
         } while(error);
-        scanner.close();
 
         return selection;
     }

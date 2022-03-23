@@ -1,6 +1,6 @@
 package me.grovre.equivalency;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class SubjectAndCourse {
@@ -9,7 +9,7 @@ public class SubjectAndCourse {
     private String course;
 
     public SubjectAndCourse(String subjectCourse) {
-        String[] splitSubjectCourse = subjectCourse.split(" _-");
+        String[] splitSubjectCourse = subjectCourse.split("([^A-z].*[^0-9])|([^A-z0-9])");
 
         this.subject = splitSubjectCourse[0];
         this.subject = this.subject.toUpperCase();
@@ -19,12 +19,9 @@ public class SubjectAndCourse {
     }
 
     public static List<SubjectAndCourse> SubjectAndCourses(String... subjectCourses) {
-        List<SubjectAndCourse> subjectAndCourses = new ArrayList<>(subjectCourses.length);
-        for(String subjectCourse : subjectCourses) {
-            subjectAndCourses.add(new SubjectAndCourse(subjectCourse));
-        }
-
-        return subjectAndCourses;
+        return Arrays.stream(subjectCourses)
+                .map(SubjectAndCourse::new)
+                .toList();
     }
 
     public static List<String> getAllSubjects(List<SubjectAndCourse> subjectAndCourses) {
@@ -37,6 +34,11 @@ public class SubjectAndCourse {
         return subjectAndCourses.stream()
                 .map(SubjectAndCourse::getCourse)
                 .toList();
+    }
+
+    @Override
+    public String toString() {
+        return this.subject + " " + this.course;
     }
 
     public String getSubject() {
