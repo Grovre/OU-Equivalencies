@@ -27,6 +27,7 @@ public abstract class EquivalencyData {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                assert rows != null;
                 for(Element row : rows) {
                     data = new OuData(row);
                     datas.add(data);

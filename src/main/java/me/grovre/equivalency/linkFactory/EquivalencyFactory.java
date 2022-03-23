@@ -7,6 +7,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class EquivalencyFactory implements OuBaseLinks {
@@ -14,21 +15,11 @@ public class EquivalencyFactory implements OuBaseLinks {
     private static String collegeCode = null;
 
     // TODO: 3/22/22 Accept SubjectAndCourse list 
-    public static EquivalencyData byOuCourse(String stateAbbrev, String subject, String course) {
+    public static List<EquivalencyData> byOuCourse(String stateAbbrev, String subject, String course) {
         String link = FromOuLinkFactory.FromOuLink(stateAbbrev, subject, course);
         System.out.println(link);
 
-        // FIXME: 3/22/22 Search link for verification: https://sis.ou.edu/ted/?home/byOU?&ou_subj_code=ENGR&ou_course=ENGR-2002&stat_code=OK&sbgi_code=000270
-        //https://sis.ou.edu/ted/home/byOU?home/byOU?&ou_subj_code=ENGR&ou_course=ENGR-2002&stat_code=OK&sbgi_code=000270
-        //Exception in thread "main" java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
-        //	at java.base/jdk.internal.util.Preconditions.outOfBounds(Preconditions.java:64)
-        //	at java.base/jdk.internal.util.Preconditions.outOfBoundsCheckIndex(Preconditions.java:70)
-        //	at java.base/jdk.internal.util.Preconditions.checkIndex(Preconditions.java:266)
-        //	at java.base/java.util.Objects.checkIndex(Objects.java:359)
-        //	at java.base/java.util.ArrayList.get(ArrayList.java:427)
-        //	at me.grovre.equivalency.linkFactory.EquivalencyFactory.byOuCourse(EquivalencyFactory.java:21)
-        //	at me.grovre.Main.main(Main.java:32)
-        return Objects.requireNonNull(EquivalencyData.createForCollege(For.OU, link)).get(0);
+        return Objects.requireNonNull(EquivalencyData.createForCollege(For.OU, link));
     }
 
     private static class FromOuLinkFactory {

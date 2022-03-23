@@ -29,8 +29,8 @@ public class Main {
 
         List<EquivalencyData> data = new ArrayList<>(subjectsAndCourses.size());
         for(var s : subjectsAndCourses) {
-            EquivalencyData dat = EquivalencyFactory.byOuCourse(state, s.getSubject(), s.getCourse());
-            data.add(dat);
+            List<EquivalencyData> dat = EquivalencyFactory.byOuCourse(state, s.getSubject(), s.getCourse());
+            data.addAll(dat);
         }
         System.out.println(data);
     }
